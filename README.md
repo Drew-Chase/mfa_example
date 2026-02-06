@@ -55,7 +55,7 @@ Let's break this down:
 3. **HMAC-SHA1**: A cryptographic hash function
 4. **% 1,000,000**: Reduces the hash to a 6-digit number
 
-> ### <span style="color: #4f84e0;">NOTE</span>
+> [!NOTE]
 > **Key Insight:** Both the server and the authenticator app use the **same secret** and **synchronized time** to generate identical codes. The secret never leaves either device.
 
 ### The Flow
@@ -201,7 +201,7 @@ Let's break this down further:
 - `.map(|_| rng.random())` - For each iteration, generate a random byte (ignoring the index)
 - `.collect()` - Gather all bytes into a `Vec<u8>`
 
-> ### <span style="color: #4f84e0;">NOTE</span>
+> [!NOTE]
 > **Why 20 bytes?** RFC 4226 (HOTP) recommends a secret of at least 128 bits (16 bytes). We use 160 bits (20 bytes) for extra security. More bytes = more entropy = harder to brute force.
 
 **Line 4: Encode to Base32**
@@ -327,7 +327,7 @@ let code = totp_custom::<Sha1>(30, 6, & secret_bytes, seconds);
 | `&secret_bytes` | Secret key     | Shared secret           |
 | `seconds`       | Current time   | Unix timestamp          |
 
-> ### <span style="color: #4f84e0;">NOTE</span>
+> [!NOTE]
 > **Why SHA-1?** Even though SHA-1 is broken for some uses, it's still secure for TOTP because:
 >
 > - We're using HMAC (not raw SHA-1)
@@ -474,7 +474,7 @@ return Ok(true);
 
 The user's input is a `String`, so we need to convert the generated `u64` code to a `String` for comparison. This also ensures leading zeros match.
 
-> ### <span style="color: #e0ba4f;">WARNING</span>
+> [!WARNING]
 > **Security Consideration:** This comparison is vulnerable to timing attacks. In production, use constant-time comparison:
 >
 > ```rust
@@ -562,7 +562,7 @@ This uses Unicode characters to draw the QR code in the terminal:
 .light_color(unicode::Dense1x2::Dark)
 ```
 
-> ### <span style="color: #4f84e0;">NOTE</span>
+> [!NOTE]
 > **Why invert colors?** Most terminals have dark backgrounds. QR codes work best with dark modules on light backgrounds, so we invert to make them scannable on dark terminals.
 
 ---
@@ -590,7 +590,7 @@ struct User {
 - `mfa_secret`: Optional because users might not enable MFA
 - `mfa_enabled`: Flag to check during login
 
-> ### <span style="color: #e0ba4f;">WARNING</span>
+> [!WARNING]
 > **Production Note:** Never store `password_hash` as plain text like shown here! Use:
 >
 > ```rust
